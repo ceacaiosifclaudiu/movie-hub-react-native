@@ -9,7 +9,7 @@ const HeaderHomeScreen = () => {
     const nav: NavigationProp<ParamListBase> = useNavigation();
 
     const openDrawer = () => {
-        nav.openDrawer(); // Function to open the drawer
+        nav.openDrawer();
     };
 
     return (

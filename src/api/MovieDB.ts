@@ -13,14 +13,22 @@ const personDetailsEndpoint = (personId: number) => `https://api.themoviedb.org/
 const personMoviesEndpoint = (personId: number) => `https://api.themoviedb.org/3/person/${personId}/movie_credits`
 const searchMovieEndpoint = 'https://api.themoviedb.org/3/search/movie'
 
-export const image500 = (path: any) => path ? `https://image.tmdb.org/t/p/w500${path}` : null;
-export const image342 = (path: any) => path ? `https://image.tmdb.org/t/p/w342${path}` : null;
-export const image185 = (path: any) => path ? `https://image.tmdb.org/t/p/w185${path}` : null;
+export const image500 = (path: string) => path ? `https://image.tmdb.org/t/p/w500${path}` : null;
+export const image342 = (path: string) => path ? `https://image.tmdb.org/t/p/w342${path}` : null;
+export const image185 = (path: string) => path ? `https://image.tmdb.org/t/p/w185${path}` : null;
 
 export const fallbackMoviePoster = 'https://img.myloview.com/stickers/white-laptop-screen-with-hd-video-technology-icon-isolated-on-grey-background-abstract-circle-random-dots-vector-illustration-400-176057922.jpg';
 export const fallbackPersonImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmUiF-YGjavA63_Au8jQj7zxnFxS_Ay9xc6pxleMqCxH92SzeNSjBTwZ0l61E4B3KTS7o&usqp=CAU';
 
-const apiCall = async ({ endpoint, params }: any) => {
+type ApiCallParams = {
+    endpoint: string;
+    params?: Record<string, any>;
+    id?: number
+};
+
+type ApiCallFunction = (params: ApiCallParams) => Promise<any>;
+
+const apiCall: ApiCallFunction = async ({ endpoint, params }) => {
     const options = {
         method: 'GET',
         url: endpoint,
@@ -40,7 +48,7 @@ const apiCall = async ({ endpoint, params }: any) => {
     }
 }
 
-const apiCallP = async ({ endpoint, id }: any) => {
+const apiCallP: ApiCallFunction = async ({ endpoint, id }) => {
     const options = {
         method: 'GET',
         url: endpoint,
@@ -97,6 +105,6 @@ export const fetchPersonMovies = (id: number) => {
     return apiCallP({ endpoint, id })
 }
 
-export const searchMovies = (params: any) => {
+export const searchMovies = (params: Record<string, any>) => {
     return apiCall({ endpoint: searchMovieEndpoint, params });
 }

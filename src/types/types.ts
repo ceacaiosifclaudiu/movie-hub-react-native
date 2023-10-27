@@ -49,3 +49,8 @@ export type ItemsState = {
     favoriteActors: Person[];
     isActorFavorite: boolean
 }
+
+export type Results = {
+    title: string
+    poster_path: string
+}

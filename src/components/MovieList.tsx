@@ -1,4 +1,4 @@
-import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
     Dimensions,
@@ -13,9 +13,16 @@ import { fallbackMoviePoster, image185 } from '../api/MovieDB';
 import { whiteTextColor } from '../commonStyle';
 import { Movie } from '../types/types';
 import TitleSeeMore from './TitleSeeMore';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type RootStackParamList = {
+    Home: undefined;
+    Movie: Movie;
+};
+type Nav = StackNavigationProp<RootStackParamList, 'Movie'>
 
 const MovieListItem = ({ item }: { item: Movie }) => {
-    const nav: NavigationProp<ParamListBase> = useNavigation();
+    const nav: Nav = useNavigation();
     const { id, poster_path, title } = item;
 
     return (

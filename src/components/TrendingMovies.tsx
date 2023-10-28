@@ -1,13 +1,12 @@
-import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fallbackMoviePoster, image500 } from '../api/MovieDB';
 import { whiteTextColor } from '../commonStyle';
-import { Movie } from '../types/types';
+import { Movie, Nav } from '../types/types';
 
 const TrendingMovies = ({ trending }: { trending: Movie[] }) => {
-    const nav: NavigationProp<ParamListBase> = useNavigation();
-    const image = 'https://image.tmdb.org/t/p/w500'
+    const nav: Nav = useNavigation();
 
     return (
         <View>

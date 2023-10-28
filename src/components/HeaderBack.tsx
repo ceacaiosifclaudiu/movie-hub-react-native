@@ -2,9 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../commonStyle';
+import { Nav } from '../types/types';
 
 const HeaderBack = ({ addToFavorite, favorite, setFavorite }: any) => {
-    const nav = useNavigation();
+    const nav: Nav = useNavigation();
 
     return (
         <SafeAreaView style={styles.header}>

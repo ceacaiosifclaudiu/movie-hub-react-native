@@ -16,13 +16,13 @@ import {
   fetchPersonMovies,
   image500,
 } from '../api/MovieDB';
+import { backgroundColorSecondary, darkGray, primaryColor, secondaryTextColor, whiteTextColor } from '../commonStyle';
 import CustomView from '../components/CustomView';
 import HeaderBack from '../components/HeaderBack';
 import Loading from '../components/Loading';
 import MovieList from '../components/MovieList';
 import { addFavoriteActor } from '../store/itemSlice';
 import { Item, ItemsState, Person } from '../types/types';
-import { backgroundColorSecondary, customGray, darkGray, primaryColor, secondaryTextColor, whiteTextColor } from '../commonStyle';
 
 const { width, height } = Dimensions.get('window');
 

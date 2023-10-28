@@ -1,3 +1,6 @@
+import { NavigationProp, ParamListBase } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+
 export type Movie = {
     id: number
     title: string
@@ -54,3 +57,5 @@ export type Results = {
     title: string
     poster_path: string
 }
+
+export type Nav = NavigationProp<ParamListBase>

@@ -3,10 +3,11 @@ import React from 'react';
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { stylesTheme, whiteTextColor } from '../commonStyle';
+import { Nav } from '../types/types';
 
 
 const HeaderHomeScreen = () => {
-    const nav: NavigationProp<ParamListBase> = useNavigation();
+    const nav: Nav = useNavigation();
 
     const openDrawer = () => {
         nav.openDrawer();

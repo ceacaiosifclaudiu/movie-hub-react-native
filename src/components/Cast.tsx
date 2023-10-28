@@ -1,10 +1,10 @@
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { secondaryTextColor, whiteTextColor } from '../commonStyle';
-import { CastDetail } from '../types/types';
+import { CastDetail, Nav, Person } from '../types/types';
 import { fallbackPersonImage } from '../api/MovieDB';
 
-const CastItem = ({ cast, nav }: { cast: CastDetail, nav: any }) => {
+const CastItem = ({ cast, nav }: { cast: CastDetail, nav: Nav }) => {
     const { character, name, profile_path, cast_id } = cast;
 
     const openPersonScreen = () => {
@@ -38,7 +38,7 @@ const CastItem = ({ cast, nav }: { cast: CastDetail, nav: any }) => {
     );
 };
 
-const Cast = ({ cast, nav, title }: { cast: CastDetail[], nav: any, title?: string }) => {
+const Cast = ({ cast, nav, title }: { cast: Person[], nav: Nav, title?: string }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title ? title : "Top Cast"}</Text>

@@ -23,12 +23,12 @@ import HeaderBack from '../components/HeaderBack';
 import Loading from '../components/Loading';
 import MovieList from '../components/MovieList';
 import { addFavoriteMovie, removeFavoriteMovie } from '../store/itemSlice';
-import { Item, ItemsState, Movie } from '../types/types';
+import { Item, ItemsState, Movie, Nav } from '../types/types';
 
 const MovieScreen = () => {
   const { params: item } = useRoute();
   const { id } = item as Item;
-  const nav = useNavigation();
+  const nav:Nav = useNavigation();
   const [loading, setLoading] = React.useState(true);
   const [movie, setMovie] = React.useState<Movie>();
   const [cast, setCast] = React.useState([]);

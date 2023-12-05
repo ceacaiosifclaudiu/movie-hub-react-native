@@ -8,7 +8,7 @@ A React Native application that allows users to explore movies, actors, add/remo
 
 2. Install dependencies:
    ```bash
-    cd restaurant-app
+    cd movie-hub-react-native
     npm install
  
 3. Install Android Studio and Dependencies:
@@ -57,33 +57,47 @@ A React Native application that allows users to explore movies, actors, add/remo
 
 ## Folder Structure:
      ```bash
-     /
-    ├── android                     
-    ├── ios                         
-    ├── src/
-    │   ├── apis                   
-    │   ├── assets                   
-    │   ├── commonStyle            
-    │   ├── components             
-    │   ├── navigation/
-    │   │   └── AppNavigation.tsx
-    │   │   └── CustomDrawer.tsx
-    │   └── screens/
-    │       └── FavoriteScreen.tsx
-    │       └── HomeScreen.tsx
-    │       └── MovieScreen.tsx
-    │       └── PersonScreen.tsx
-    │       └── SearchScreen.tsx
-    │   ├── store            
-    │   └── types
-    ├── App.tsx
-    ├── jest.config.js             
-    ├── Dockerfile
-    ├── package.json                  
-    └── ...
+          /
+          ├── android                     
+          ├── ios                         
+          ├── src/
+          │   ├── apis                   
+          │   ├── assets                   
+          │   ├── commonStyle            
+          │   ├── components             
+          │   ├── navigation/
+          │   │   └── AppNavigation.tsx
+          │   │   └── CustomDrawer.tsx
+          │   └── screens/
+          │       └── FavoriteScreen.tsx
+          │       └── HomeScreen.tsx
+          │       └── MovieScreen.tsx
+          │       └── PersonScreen.tsx
+          │       └── SearchScreen.tsx
+          │   ├── store            
+          │   └── types
+          ├── App.tsx
+          ├── jest.config.js             
+          ├── Dockerfile
+          ├── package.json                  
+          └── ...
+          
     
 ## Screenshots/GIFs
-Upcoming...
+### Home Screen
+<img src="https://github.com/ceacaiosifclaudiu/movie-hub-react-native/assets/110819428/f43ee3e1-047d-4d73-912c-65fd49f73537" alt="BasicShop" width="310"/> 
+
+### Search Screen
+<img src="https://github.com/ceacaiosifclaudiu/movie-hub-react-native/assets/110819428/cd61b89e-fd15-4768-8e94-fbc8e47c35ff" alt="BasicShop" width="310"/>
+
+### Movie Screen
+<img src="https://github.com/ceacaiosifclaudiu/movie-hub-react-native/assets/110819428/58f9492f-b29b-4c6a-9604-b9ba923acc69" alt="BasicShop" width="310"/>
+
+### Person Screen
+<img src="https://github.com/ceacaiosifclaudiu/movie-hub-react-native/assets/110819428/3dd16188-e034-4a33-95a7-ccce032ac441" alt="BasicShop" width="310"/>
+
+### Favorite Screen
+<img src="https://github.com/ceacaiosifclaudiu/movie-hub-react-native/assets/110819428/223c6097-d9dc-4ca0-8074-01fb48f0bab4" alt="BasicShop" width="310"/>
 
 ## Contributing
 Contributions are welcome! If you find any bugs or have suggestions for new features, please open an issue or submit a pull request.

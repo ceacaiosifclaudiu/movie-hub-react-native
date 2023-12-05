@@ -26,10 +26,7 @@ import { Item, ItemsState, Person } from '../types/types';
 
 const { width, height } = Dimensions.get('window');
 
-const PersonScreen = () => {
-  const { params: item } = useRoute();
-  const typedItem = item as Item;
-
+const usePersonData = (id: number) => {
   const [loading, setLoading] = useState(false);
   const [personMovies, setPersonMovies] = useState([]);
   const [personDetails, setPersonDetails] = useState<Person>({
@@ -47,11 +44,7 @@ const PersonScreen = () => {
   const favoriteActors = useSelector((state: { favorites: ItemsState }) => state.favorites.favoriteActors);
 
   const boolean = favoriteActors?.some((actor: any) => actor.id === personDetails.id);
-  const [isFavorite, setIsFavorite] = React.useState(boolean);
-
-  useEffect(() => {
-    fetchData(typedItem?.id);
-  }, []);
+  const [isFavorite, setIsFavorite] = useState(boolean);
 
   const fetchData = async (id: number) => {
     setLoading(true);
@@ -73,7 +66,27 @@ const PersonScreen = () => {
     if (personDetails) {
       dispatch(addFavoriteActor(personDetails));
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchData(id);
+  }, [id]);
+
+  return {
+    loading,
+    personMovies,
+    personDetails,
+    isFavorite,
+    setIsFavorite,
+    addToFavoritesActorHandler,
+  };
+};
+
+const PersonScreen = () => {
+  const { params: item } = useRoute();
+  const typedItem = item as Item;
+
+  const { loading, personMovies, personDetails, isFavorite,setIsFavorite, addToFavoritesActorHandler } = usePersonData(typedItem?.id);
 
   const renderProfileImage = () => (
     <View style={styles.profileImageAlign}>
@@ -131,7 +144,7 @@ const PersonScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView style={styles.containerHeader}>
-        <HeaderBack addToFavorite={addToFavoritesActorHandler} favorite={boolean} setFavorite={setIsFavorite} />
+        <HeaderBack addToFavorite={addToFavoritesActorHandler} favorite={isFavorite} setFavorite={setIsFavorite} />
       </SafeAreaView>
 
       {loading ? (

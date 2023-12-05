@@ -56,6 +56,7 @@ A React Native application that allows users to explore movies, actors, add/remo
 - Add to favorite Actor/Movie
 
 ## Folder Structure:
+     ```bash
           /
           ├── android                     
           ├── ios                         

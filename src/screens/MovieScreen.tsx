@@ -28,13 +28,14 @@ import { Item, ItemsState, Movie, Nav } from '../types/types';
 const MovieScreen = () => {
   const { params: item } = useRoute();
   const { id } = item as Item;
-  const nav:Nav = useNavigation();
+  const nav: Nav = useNavigation();
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = React.useState(true);
   const [movie, setMovie] = React.useState<Movie>();
   const [cast, setCast] = React.useState([]);
   const [similarMovies, setSimilarMovies] = React.useState([]);
 
-  const dispatch = useDispatch();
   const favoriteMovies = useSelector((state: { favorites: ItemsState }) => state.favorites.favoriteMovies);
   const movieExistsInFavorites = favoriteMovies?.some((movieFind: Movie) => movieFind.id === movie?.id);
   const [favorite, setFavorite] = React.useState(movieExistsInFavorites);
@@ -54,30 +55,26 @@ const MovieScreen = () => {
   };
 
   useEffect(() => {
-    fetchData(id);
-  }, [item]);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [details, credits, similar] = await Promise.all([
+          fetchMovieDetails(id),
+          fetchMovieCredits(id),
+          fetchSimilarMovies(id),
+        ]);
+        setMovie(details);
+        setCast(credits.cast || []);
+        setSimilarMovies(similar.results || []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchData = async (id: number) => {
-    setLoading(true);
-    await Promise.all([getMovieDetails(id), getMovieCredits(id), getSimilarMovies(id)]);
-    setLoading(false);
-  };
-
-  const getMovieDetails = async (id: number) => {
-    const data = await fetchMovieDetails(id);
-    if (data) setMovie(data);
-    setLoading(false);
-  }
-
-  const getMovieCredits = async (id: number) => {
-    const data = await fetchMovieCredits(id);
-    if (data && data.cast) setCast(data.cast)
-  }
-
-  const getSimilarMovies = async (id: number) => {
-    const data = await fetchSimilarMovies(id);
-    if (data) setSimilarMovies(data.results);
-  }
+    fetchData();
+  }, [id, item]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

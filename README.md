@@ -8,7 +8,7 @@ A React Native application that allows users to explore movies, actors, add/remo
 
 2. Install dependencies:
    ```bash
-    cd restaurant-app
+    cd movie-hub-react-native
     npm install
  
 3. Install Android Studio and Dependencies:

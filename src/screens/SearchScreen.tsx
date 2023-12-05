@@ -17,27 +17,42 @@ import { backgroundColor, lightGray, secondaryTextColor, whiteTextColor } from '
 
 var { width, height } = Dimensions.get('window');
 
-const SearchScreen = ({ navigation }: any) => {
-  const [loading, setLoading] = React.useState(false)
+const useSearch = () => {
+  const [loading, setLoading] = React.useState(false);
   const [results, setResults] = React.useState<Results[]>([]);
 
-  const handleSearch = (value: string) => {
+  const handleSearch = async (value: string) => {
     if (value && value.length > 2) {
       setLoading(true);
-      searchMovies({
-        query: value,
-        include_adult: 'false',
-        language: 'en-US',
-        page: '1'
-      }).then(data => {
+      try {
+        const data = await searchMovies({
+          query: value,
+          include_adult: 'false',
+          language: 'en-US',
+          page: '1',
+        });
+        setResults(data.results || []);
+      } catch (error) {
+        console.error('Error searching movies:', error);
+        setResults([]);
+      } finally {
         setLoading(false);
-        setResults(data.results)
-      })
+      }
     } else {
       setLoading(false);
-      setResults([])
+      setResults([]);
     }
-  }
+  };
+
+  return {
+    loading,
+    results,
+    handleSearch,
+  };
+};
+
+const SearchScreen = ({ navigation }: any) => {
+  const { loading, results, handleSearch } = useSearch();
 
   return (
     <View style={styles.container}>

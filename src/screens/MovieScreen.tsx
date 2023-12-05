@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Dimensions,
   Image,
@@ -9,12 +9,8 @@ import {
   View
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   fallbackMoviePoster,
-  fetchMovieCredits,
-  fetchMovieDetails,
-  fetchSimilarMovies,
   image500
 } from '../api/MovieDB';
 import { backgroundColorSecondary, secondaryTextColor, whiteTextColor } from '../commonStyle';
@@ -22,63 +18,18 @@ import Cast from '../components/Cast';
 import HeaderBack from '../components/HeaderBack';
 import Loading from '../components/Loading';
 import MovieList from '../components/MovieList';
-import { addFavoriteMovie, removeFavoriteMovie } from '../store/itemSlice';
-import { Item, ItemsState, Movie, Nav } from '../types/types';
+import useSingleMovieData from '../hooks/useSingleMovieData';
+import { Item, Nav } from '../types/types';
 
 const MovieScreen = () => {
   const { params: item } = useRoute();
   const { id } = item as Item;
   const nav: Nav = useNavigation();
-  const dispatch = useDispatch();
-
-  const [loading, setLoading] = React.useState(true);
-  const [movie, setMovie] = React.useState<Movie>();
-  const [cast, setCast] = React.useState([]);
-  const [similarMovies, setSimilarMovies] = React.useState([]);
-
-  const favoriteMovies = useSelector((state: { favorites: ItemsState }) => state.favorites.favoriteMovies);
-  const movieExistsInFavorites = favoriteMovies?.some((movieFind: Movie) => movieFind.id === movie?.id);
-  const [favorite, setFavorite] = React.useState(movieExistsInFavorites);
-
-  const handleAddToFavorites = () => {
-    if (movie) {
-      const movieExistsInFavorites = favoriteMovies.some(
-        (favoriteMovie: Movie) => favoriteMovie.id === movie.id
-      );
-
-      if (!movieExistsInFavorites) {
-        dispatch(addFavoriteMovie(movie));
-      } else {
-        dispatch(removeFavoriteMovie(movie));
-      }
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [details, credits, similar] = await Promise.all([
-          fetchMovieDetails(id),
-          fetchMovieCredits(id),
-          fetchSimilarMovies(id),
-        ]);
-        setMovie(details);
-        setCast(credits.cast || []);
-        setSimilarMovies(similar.results || []);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [id, item]);
+  const { loading, movie, cast, similarMovies, favorite, setFavorite, handleAddToFavorites } = useSingleMovieData(id);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <HeaderBack addToFavorite={handleAddToFavorites} favorite={movieExistsInFavorites} setFavorite={setFavorite} />
+      <HeaderBack addToFavorite={handleAddToFavorites} favorite={favorite} setFavorite={setFavorite} />
 
       {
         loading

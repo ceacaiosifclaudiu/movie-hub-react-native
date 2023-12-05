@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Dimensions,
   Image,
@@ -9,72 +9,19 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   fallbackPersonImage,
-  fetchPersonDetails,
-  fetchPersonMovies,
-  image500,
+  image500
 } from '../api/MovieDB';
 import { backgroundColorSecondary, darkGray, primaryColor, secondaryTextColor, whiteTextColor } from '../commonStyle';
 import CustomView from '../components/CustomView';
 import HeaderBack from '../components/HeaderBack';
 import Loading from '../components/Loading';
 import MovieList from '../components/MovieList';
-import { addFavoriteActor } from '../store/itemSlice';
-import { Item, ItemsState, Person } from '../types/types';
+import usePersonData from '../hooks/usePersonData';
+import { Item } from '../types/types';
 
 const { width, height } = Dimensions.get('window');
-
-const usePersonData = (id: number) => {
-  const [loading, setLoading] = useState(false);
-  const [personMovies, setPersonMovies] = useState([]);
-  const [personDetails, setPersonDetails] = useState<Person>({
-    id: '',
-    name: '',
-    birthday: '',
-    place_of_birth: '',
-    profile_path: '',
-    popularity: 0,
-    biography: '',
-    gender: 0,
-    known_for_department: '',
-  });
-  const dispatch = useDispatch();
-  const favoriteActors = useSelector((state: { favorites: ItemsState }) => state.favorites.favoriteActors);
-
-  const isFavorite = favoriteActors?.some((actor: any) => actor.id === personDetails.id);
-  const [favorite, setFavorite] = useState(isFavorite);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const [detailData, moviesData] = await Promise.all([fetchPersonDetails(id), fetchPersonMovies(id)]);
-      if (detailData) setPersonDetails(detailData);
-      if (moviesData) setPersonMovies(moviesData.cast);
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [id]);
-
-  const addToFavoritesActorHandler = () => {
-    if (personDetails) {
-      dispatch(addFavoriteActor(personDetails));
-      setFavorite(!favorite);
-    }
-  };
-
-  return {
-    loading,
-    personMovies,
-    personDetails,
-    isFavorite: favorite,
-    setFavorite,
-    addToFavoritesActorHandler,
-  };
-};
-
 
 const PersonScreen = () => {
   const { params: item } = useRoute();

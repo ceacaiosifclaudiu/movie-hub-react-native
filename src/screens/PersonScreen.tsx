@@ -43,50 +43,44 @@ const usePersonData = (id: number) => {
   const dispatch = useDispatch();
   const favoriteActors = useSelector((state: { favorites: ItemsState }) => state.favorites.favoriteActors);
 
-  const boolean = favoriteActors?.some((actor: any) => actor.id === personDetails.id);
-  const [isFavorite, setIsFavorite] = useState(boolean);
+  const isFavorite = favoriteActors?.some((actor: any) => actor.id === personDetails.id);
+  const [favorite, setFavorite] = useState(isFavorite);
 
-  const fetchData = async (id: number) => {
-    setLoading(true);
-    await Promise.all([getPersonDetail(id), getPersonMovies(id)]);
-    setLoading(false);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const [detailData, moviesData] = await Promise.all([fetchPersonDetails(id), fetchPersonMovies(id)]);
+      if (detailData) setPersonDetails(detailData);
+      if (moviesData) setPersonMovies(moviesData.cast);
+      setLoading(false);
+    };
 
-  const getPersonDetail = async (id: number) => {
-    const data = await fetchPersonDetails(id);
-    if (data) setPersonDetails(data);
-  };
-
-  const getPersonMovies = async (id: number) => {
-    const data = await fetchPersonMovies(id);
-    if (data) setPersonMovies(data.cast);
-  };
+    fetchData();
+  }, [id]);
 
   const addToFavoritesActorHandler = () => {
     if (personDetails) {
       dispatch(addFavoriteActor(personDetails));
+      setFavorite(!favorite);
     }
   };
-
-  useEffect(() => {
-    fetchData(id);
-  }, [id]);
 
   return {
     loading,
     personMovies,
     personDetails,
-    isFavorite,
-    setIsFavorite,
+    isFavorite: favorite,
+    setFavorite,
     addToFavoritesActorHandler,
   };
 };
+
 
 const PersonScreen = () => {
   const { params: item } = useRoute();
   const typedItem = item as Item;
 
-  const { loading, personMovies, personDetails, isFavorite,setIsFavorite, addToFavoritesActorHandler } = usePersonData(typedItem?.id);
+  const { loading, personMovies, personDetails, isFavorite, setFavorite, addToFavoritesActorHandler } = usePersonData(typedItem?.id);
 
   const renderProfileImage = () => (
     <View style={styles.profileImageAlign}>
@@ -144,7 +138,7 @@ const PersonScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView style={styles.containerHeader}>
-        <HeaderBack addToFavorite={addToFavoritesActorHandler} favorite={isFavorite} setFavorite={setIsFavorite} />
+        <HeaderBack addToFavorite={addToFavoritesActorHandler} favorite={isFavorite} setFavorite={setFavorite} />
       </SafeAreaView>
 
       {loading ? (

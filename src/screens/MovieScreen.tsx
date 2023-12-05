@@ -2,22 +2,15 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
 import {
   Dimensions,
-  Image,
   ScrollView,
-  StyleSheet,
-  Text,
-  View
+  StyleSheet
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import {
-  fallbackMoviePoster,
-  image500
-} from '../api/MovieDB';
-import { backgroundColorSecondary, secondaryTextColor, whiteTextColor } from '../commonStyle';
-import Cast from '../components/Cast';
+import { backgroundColorSecondary } from '../commonStyle';
 import HeaderBack from '../components/HeaderBack';
 import Loading from '../components/Loading';
-import MovieList from '../components/MovieList';
+import CastAndSimilarMovies from '../components/movie/CastAndSimilarMovies';
+import MovieInfo from '../components/movie/MovieInfo';
+import MoviePoster from '../components/movie/MoviePoster';
 import useSingleMovieData from '../hooks/useSingleMovieData';
 import { Item, Nav } from '../types/types';
 
@@ -38,54 +31,10 @@ const MovieScreen = () => {
           :
           (
             <>
-              <View style={styles.imageContainer}>
-                {movie && movie.poster_path && (
-                  <Image
-                    style={styles.moviePoster}
-                    source={{ uri: image500(movie.poster_path) || fallbackMoviePoster }}
-                  />
-                )}
-                <LinearGradient
-                  start={{ x: 0.5, y: 0 }}
-                  end={{ x: 0.5, y: 1 }}
-                  colors={['transparent', 'rgba(23,23,23,0.87)', 'rgba(23,23,23,1)']}
-                  style={styles.gradient}
-                />
-              </View>
-
-              <View style={styles.movieInfoContainer}>
-                <Text style={styles.movieTitle}>{movie?.title}</Text>
-
-                {
-                  movie?.id
-                    ?
-                    <Text style={styles.movieDetails}>Released • {movie?.release_date} • {movie?.runtime} mins</Text>
-                    : null
-                }
-
-                <View style={styles.genreContainer}>
-                  {
-                    movie?.genres.map((genre, index) => {
-                      let showDot = index + 1 != movie.genres.length;
-                      return (
-                        <Text
-                          key={genre.id}
-                          style={styles.genre}
-                        >
-                          {genre.name} {showDot ? "•" : null}
-                        </Text>)
-                    })
-                  }
-                </View>
-
-                <Text style={styles.description}>
-                  {movie?.overview}
-                </Text>
-
-                {cast.length > 0 && <Cast cast={cast} nav={nav} />}
-
-                {similarMovies.length > 0 && <MovieList title="Similar Movies" data={similarMovies} hideSeeAll />}
-              </View></>
+              <MoviePoster movie={movie} />
+              <MovieInfo movie={movie} />
+              <CastAndSimilarMovies cast={cast} similarMovies={similarMovies} nav={nav} />
+            </>
           )
       }
     </ScrollView>
@@ -97,56 +46,6 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundColorSecondary,
     position: 'relative',
     minHeight: '100%'
-  },
-  movieInfoContainer: {
-    marginTop: -(Dimensions.get('window').height * 0.09),
-  },
-  movieTitle: {
-    color: whiteTextColor,
-    fontSize: 27,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  movieDetails: {
-    color: secondaryTextColor,
-    fontWeight: 'bold',
-    fontSize: 16,
-    textAlign: 'center',
-
-  },
-  genreContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginHorizontal: 4,
-    paddingHorizontal: 2,
-    gap: 4,
-  },
-  genre: {
-    color: secondaryTextColor,
-    fontWeight: 'bold',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  description: {
-    color: secondaryTextColor,
-    fontSize: 15,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-  },
-  imageContainer: {
-    width: '100%',
-  },
-  gradient: {
-    width: '100%',
-    height: Dimensions.get('window').height * 0.4,
-    position: 'absolute',
-    bottom: 0,
-  },
-  moviePoster: {
-    width: '100%',
-    height: Dimensions.get('window').height * 0.5,
-    objectFit: 'cover',
   },
 });
 

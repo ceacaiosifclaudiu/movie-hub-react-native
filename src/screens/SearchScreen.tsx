@@ -10,46 +10,12 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { fallbackMoviePoster, image185, searchMovies } from '../api/MovieDB';
-import Loading from '../components/Loading';
-import { Results } from '../types/types';
+import { fallbackMoviePoster, image185 } from '../api/MovieDB';
 import { backgroundColor, lightGray, secondaryTextColor, whiteTextColor } from '../commonStyle';
+import Loading from '../components/Loading';
+import useSearch from '../hooks/useSearch';
 
 var { width, height } = Dimensions.get('window');
-
-const useSearch = () => {
-  const [loading, setLoading] = React.useState(false);
-  const [results, setResults] = React.useState<Results[]>([]);
-
-  const handleSearch = async (value: string) => {
-    if (value && value.length > 2) {
-      setLoading(true);
-      try {
-        const data = await searchMovies({
-          query: value,
-          include_adult: 'false',
-          language: 'en-US',
-          page: '1',
-        });
-        setResults(data.results || []);
-      } catch (error) {
-        console.error('Error searching movies:', error);
-        setResults([]);
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      setLoading(false);
-      setResults([]);
-    }
-  };
-
-  return {
-    loading,
-    results,
-    handleSearch,
-  };
-};
 
 const SearchScreen = ({ navigation }: any) => {
   const { loading, results, handleSearch } = useSearch();

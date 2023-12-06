@@ -24,7 +24,7 @@ const HeaderHomeScreen = () => {
                     <Text style={styles.title}><Text style={[stylesTheme.text, {
                         fontSize: 28,
                         fontWeight: '700'
-                    }]}>Movie</Text>Finder</Text>
+                    }]}>Movie</Text>Hub</Text>
                     <TouchableOpacity
                         onPress={() => nav.navigate('Search')}
                         activeOpacity={0.8}>

@@ -1,7 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
 import {
-  Dimensions,
   ScrollView,
   StyleSheet
 } from 'react-native';
@@ -26,10 +25,8 @@ const MovieScreen = () => {
 
       {
         loading
-          ?
-          <Loading />
-          :
-          (
+          ? <Loading />
+          : (
             <>
               <MoviePoster movie={movie} />
               <MovieInfo movie={movie} />
@@ -37,6 +34,7 @@ const MovieScreen = () => {
             </>
           )
       }
+
     </ScrollView>
   );
 };

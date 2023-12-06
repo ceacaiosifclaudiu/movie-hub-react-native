@@ -40,7 +40,8 @@ const SearchScreen = ({ navigation }: any) => {
       </View>
 
       {
-        loading ?
+        loading
+          ?
           (
             <Loading />
           )

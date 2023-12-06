@@ -14,17 +14,20 @@ const HomeScreen = () => {
         <View style={{ flex: 1, backgroundColor: backgroundColor }}>
             <HeaderHomeScreen />
 
-            {loading ? (
-                <Loading />
-            ) : (
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    {movieData.trending.length > 0 && <TrendingMovies trending={movieData.trending} />}
+            {
+                loading
+                    ? (
+                        <Loading />
+                    ) : (
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            {movieData.trending.length > 0 && <TrendingMovies trending={movieData.trending} />}
 
-                    <MovieList title="Upcoming" data={movieData.upcoming} />
+                            <MovieList title="Upcoming" data={movieData.upcoming} />
 
-                    <MovieList title="Top Rated" data={movieData.topRated} />
-                </ScrollView>
-            )}
+                            <MovieList title="Top Rated" data={movieData.topRated} />
+                        </ScrollView>
+                    )
+            }
         </View>
     );
 };
